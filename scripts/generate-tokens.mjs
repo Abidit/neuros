@@ -3,15 +3,24 @@ import { format } from 'prettier';
 import { tokens } from '../src/design-system/tokens.ts';
 
 const TEXT_STYLE_KEYS = {
-  headingH1: 'heading-h1', headingH2: 'heading-h2', headingH3: 'heading-h3',
-  headingH4: 'heading-h4', headingH5: 'heading-h5', headingH6: 'heading-h6',
-  bodySmRegular: 'body-sm', bodyBaseRegular: 'body-base',
-  bodyBaseSemibold: 'body-base-semibold', bodyMdMedium: 'body-md',
-  bodyLgRegular: 'body-lg', buttonSmBold: 'button-sm', buttonBaseBold: 'button-base',
+  headingH1: 'heading-h1',
+  headingH2: 'heading-h2',
+  headingH3: 'heading-h3',
+  headingH4: 'heading-h4',
+  headingH5: 'heading-h5',
+  headingH6: 'heading-h6',
+  bodySmRegular: 'body-sm',
+  bodyBaseRegular: 'body-base',
+  bodyBaseSemibold: 'body-base-semibold',
+  bodyMdMedium: 'body-md',
+  bodyLgRegular: 'body-lg',
+  buttonSmBold: 'button-sm',
+  buttonBaseBold: 'button-base',
 };
 const BREAKPOINT_KEYS = { mobile: 'sm', tablet: 'md', desktop: 'xl' };
 const DECLARATIONS = [];
-const kebab = (value) => value.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
+const kebab = (value) =>
+  value.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
 const rem = (value) => `${Number.parseFloat(value) / 16}rem`;
 const add = (key, value) => DECLARATIONS.push(`--${key}: ${value};`);
 const colorReference = (reference) => {
@@ -24,49 +33,73 @@ const spacingReference = (reference) => {
 };
 
 for (const [group, values] of Object.entries(tokens.color.primitive)) {
-  for (const [name, value] of Object.entries(values)) add(`color-${kebab(group)}-${name}`, value);
+  for (const [name, value] of Object.entries(values))
+    add(`color-${kebab(group)}-${name}`, value);
 }
 for (const [group, values] of Object.entries(tokens.color.semantic)) {
-  for (const [name, value] of Object.entries(values)) add(`color-${group}-${name}`, colorReference(value));
+  for (const [name, value] of Object.entries(values))
+    add(`color-${group}-${name}`, colorReference(value));
 }
-for (const name of Object.keys(tokens.typography.fontFamily)) add(`font-${name}`, `var(--font-${name}-source)`);
+for (const name of Object.keys(tokens.typography.fontFamily))
+  add(`font-${name}`, `var(--font-${name}-source)`);
 add('font-sans', 'var(--font-body-source)');
-for (const [name, value] of Object.entries(tokens.typography.fontWeight)) add(`font-weight-${name}`, value);
+for (const [name, value] of Object.entries(tokens.typography.fontWeight))
+  add(`font-weight-${name}`, value);
 add('tracking-normal', tokens.typography.letterSpacing.default);
 for (const [key, value] of Object.entries(tokens.typography.styles)) {
   const name = TEXT_STYLE_KEYS[key];
   add(`text-${name}`, rem(value.fontSize));
   add(`text-${name}--line-height`, value.lineHeight);
 }
-for (const [pixels, value] of Object.entries(tokens.spacing.primitive)) add(`spacing-space-${Number(pixels) / 4}`, rem(value));
+for (const [pixels, value] of Object.entries(tokens.spacing.primitive))
+  add(`spacing-space-${Number(pixels) / 4}`, rem(value));
 for (const [group, values] of Object.entries(tokens.spacing.semantic)) {
-  for (const [name, value] of Object.entries(values)) add(`spacing-${group}-${name}`, spacingReference(value));
+  for (const [name, value] of Object.entries(values))
+    add(`spacing-${group}-${name}`, spacingReference(value));
 }
 for (const group of ['control', 'icon']) {
-  for (const [name, value] of Object.entries(tokens[group])) add(`spacing-${group}-${name}`, rem(value));
+  for (const [name, value] of Object.entries(tokens[group]))
+    add(`spacing-${group}-${name}`, rem(value));
 }
 add('spacing-outline-offset', rem(tokens.outline.offset));
 add('outline-width-focus', rem(tokens.outline.width));
 add('border-width-default', rem(tokens.border.width));
-for (const [name, value] of Object.entries(tokens.radius)) add(`radius-${name}`, rem(value));
-for (const [key, name] of [['shadowPrimary1', 'primary-1'], ['shadowPrimary4', 'primary-4']]) {
+for (const [name, value] of Object.entries(tokens.radius))
+  add(`radius-${name}`, rem(value));
+for (const [key, name] of [
+  ['shadowPrimary1', 'primary-1'],
+  ['shadowPrimary4', 'primary-4'],
+]) {
   let shadow = tokens.effect[key];
-  for (const [alpha, color] of Object.entries(tokens.color.primitive.primaryAlpha)) {
+  for (const [alpha, color] of Object.entries(
+    tokens.color.primitive.primaryAlpha,
+  )) {
     shadow = shadow.replaceAll(color, `var(--color-primary-alpha-${alpha})`);
   }
   add(`shadow-${name}`, shadow);
 }
 add('blur-button', rem(tokens.effect.blurButton));
-for (const [key, value] of Object.entries(tokens.breakpoint)) add(`breakpoint-${BREAKPOINT_KEYS[key]}`, rem(value));
-for (const [key, value] of Object.entries(tokens.container)) add(`container-${key}`, rem(value));
+for (const [key, value] of Object.entries(tokens.breakpoint))
+  add(`breakpoint-${BREAKPOINT_KEYS[key]}`, rem(value));
+for (const [key, value] of Object.entries(tokens.container))
+  add(`container-${key}`, rem(value));
 for (const [name, grid] of Object.entries(tokens.grid)) {
   add(`spacing-grid-${name}-margin`, rem(grid.margin));
   add(`spacing-grid-${name}-gutter`, rem(grid.gutter));
   add(`container-grid-${name}`, rem(grid.width));
   add(`grid-${name}-columns`, grid.columns);
 }
-for (const [key, count] of Object.entries(tokens.columns)) add(`layout-columns-${key}`, `repeat(${count}, minmax(0, 1fr))`);
-const GRID_UTILITIES = Object.keys(tokens.columns).map((key) => `@utility grid-cols-layout-${key} { grid-template-columns: var(--layout-columns-${key}); }`).join('\n');
+for (const [key, count] of Object.entries(tokens.columns))
+  add(`layout-columns-${key}`, `repeat(${count}, minmax(0, 1fr))`);
+const GRID_UTILITIES = Object.keys(tokens.columns)
+  .map(
+    (key) =>
+      `@utility grid-cols-layout-${key} { grid-template-columns: var(--layout-columns-${key}); }`,
+  )
+  .join('\n');
 const CSS = `/* Generated by yarn tokens:generate. Edit src/design-system/tokens.ts. */\n@theme static inline {\n${DECLARATIONS.join('\n')}\n}\n${GRID_UTILITIES}\n`;
 await mkdir(new URL('../src/styles/', import.meta.url), { recursive: true });
-await writeFile(new URL('../src/styles/tokens.css', import.meta.url), await format(CSS, { parser: 'css', singleQuote: true }));
+await writeFile(
+  new URL('../src/styles/tokens.css', import.meta.url),
+  await format(CSS, { parser: 'css', singleQuote: true }),
+);

@@ -1,26 +1,34 @@
-import { forwardRef, type HTMLAttributes } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import {
+  createElement,
+  forwardRef,
+  type HTMLAttributes,
+  type ReactElement,
+} from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/cn';
 
-export interface SectionProps extends HTMLAttributes<HTMLElement> {
-  spacing?: 'sm' | 'md' | 'lg';
+export const sectionVariants = cva('', {
+  variants: {
+    spacing: {
+      sm: 'py-section-sm',
+      md: 'py-section-md',
+      lg: 'py-section-lg',
+    },
+  },
+  defaultVariants: { spacing: 'md' },
+});
+
+export interface SectionProps
+  extends HTMLAttributes<HTMLElement>, VariantProps<typeof sectionVariants> {
+  as?: 'section' | 'div';
 }
 
-const spacingClasses = {
-  sm: 'py-section-sm',
-  md: 'py-section-md',
-  lg: 'py-section-lg',
-} as const;
+export const Section = forwardRef<HTMLElement, SectionProps>(
+  ({ as = 'section', className, spacing, ...props }, ref): ReactElement => {
+    const rootClass = cn(sectionVariants({ spacing }), className);
+    return createElement(as, { ref, className: rootClass, ...props });
+  },
+);
 
-export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
-  { className, spacing = 'md', ...props },
-  ref,
-) {
-  return (
-    <section
-      ref={ref}
-      className={cn(spacingClasses[spacing], className)}
-      {...props}
-    />
-  );
-});
+Section.displayName = 'Section';

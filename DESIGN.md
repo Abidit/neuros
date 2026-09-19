@@ -1,6 +1,6 @@
 # Neuros design system foundation
 
-Source: Figma file `QyXgqOKQJVQ44eFRYllhGq`, component foundation node `220:3406`. Runtime tokens are declared in `src/app/globals.css`; the typed, alias-preserving source is `src/design-system/tokens.ts`.
+Source: Figma file `QyXgqOKQJVQ44eFRYllhGq`, component foundation node `220:3406`. Runtime tokens are generated into `src/styles/tokens.css`; the typed, alias-preserving source is `src/design-system/tokens.ts`.
 
 ## Fonts
 
@@ -96,19 +96,19 @@ The canvas widths are directly exposed by the Figma component variants. Column c
 
 ## Component inventory
 
-| Component    | Props beyond native DOM props                       |
-| ------------ | --------------------------------------------------- |
-| `Container`  | `size: sm                                           | md               | lg                       | full`             |
-| `Section`    | `spacing: sm                                        | md               | lg`                      |
-| `Stack`      | `gap: xs                                            | sm               | md                       | lg                | xl`; `align: start     | center                                        | end                        | stretch` |
-| `Grid`       | `columns`, `tabletColumns`, `desktopColumns: 1      | 2                | 3                        | 4                 | 8                      | 12`; `gap: sm                                 | md                         | lg`      |
-| `Heading`    | `level: 1                                           | 2                | 3                        | 4                 | 5                      | 6`                                            |
-| `Text`       | `as: p                                              | span`; `size: sm | base                     | md                | lg`; `variant: default | muted                                         | inverse`; `weight: regular | medium   | semibold` |
-| `Button`     | `variant: primary                                   | secondary        | outline                  | ghost`; `size: sm | md                     | lg`; optional `href`switches to Next.js`Link` |
-| `IconButton` | required `aria-label` and `icon`; `variant: primary | secondary        | ghost`; `size: sm        | md                | lg`                    |
-| `Badge`      | `variant: primary                                   | neutral          | inverse`                 |
-| `Divider`    | `emphasis: default                                  | strong`          |
-| `Card`       | `padding: sm                                        | md               | lg`; `elevated: boolean` |
+| Component    | Props beyond native DOM props                                                      |
+| ------------ | ---------------------------------------------------------------------------------- |
+| `Container`  | `size: sm                                                                          | md               | lg                | full`             |
+| `Section`    | `spacing: sm                                                                       | md               | lg`               |
+| `Stack`      | `gap: xs                                                                           | sm               | md                | lg                | xl`; `align: start     | center                                        | end                        | stretch` |
+| `Grid`       | `columns`, `tabletColumns`, `desktopColumns: 1                                     | 2                | 3                 | 4                 | 8                      | 12`; `gap: sm                                 | md                         | lg`      |
+| `Heading`    | `level: 1                                                                          | 2                | 3                 | 4                 | 5                      | 6`                                            |
+| `Text`       | `as: p                                                                             | span`; `size: sm | base              | md                | lg`; `variant: default | muted                                         | inverse`; `weight: regular | medium   | semibold` |
+| `Button`     | `variant: primary                                                                  | secondary        | outline           | ghost`; `size: sm | md                     | lg`; optional `href`switches to Next.js`Link` |
+| `IconButton` | required `aria-label` and `icon`; `variant: primary                                | secondary        | ghost`; `size: sm | md                | lg`                    |
+| `Badge`      | `variant: primary                                                                  | neutral          | inverse`          |
+| `Divider`    | `emphasis: default                                                                 | strong`          |
+| `Card`       | `padding: sm \| md \| lg`; `isElevated`; `Card.Header`, `Card.Body`, `Card.Footer` |
 
 Every primitive accepts `className`; DOM-backed primitives use `forwardRef`. The `/design-system` route imports and renders the complete inventory.
 

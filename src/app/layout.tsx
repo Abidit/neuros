@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import type { ReactElement } from 'react';
 import localFont from 'next/font/local';
 import '@/styles/globals.css';
 
@@ -23,15 +24,20 @@ export const metadata: Metadata = {
   description: 'Neuros design system foundation',
 };
 
-export default function RootLayout({ children }: LayoutProps<'/'>) {
+const BODY_CLASS =
+  'flex min-h-full flex-col bg-background-primary font-body text-foreground-default';
+
+const RootLayout = ({ children }: LayoutProps<'/'>): ReactElement => {
+  const rootClass = [
+    dmSans.variable,
+    inter.variable,
+    'h-full antialiased',
+  ].join(' ');
   return (
-    <html
-      lang="en"
-      className={`${dmSans.variable} ${inter.variable} h-full antialiased`}
-    >
-      <body className="bg-background-primary font-body text-foreground-default flex min-h-full flex-col">
-        {children}
-      </body>
+    <html lang="en" className={rootClass}>
+      <body className={BODY_CLASS}>{children}</body>
     </html>
   );
-}
+};
+
+export default RootLayout;

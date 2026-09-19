@@ -10,6 +10,7 @@ If a rule is impossible for a specific case, STOP and ask before violating it.
 ## 1. Language & Syntax Rules
 
 ### 1.1 Arrow Functions Everywhere
+
 - ✅ `const Button = ({ ...props }: ButtonProps) => { ... }`
 - ✅ `const formatLabel = (value: string): string => value.trim()`
 - ❌ `function Button() {}`
@@ -17,15 +18,18 @@ If a rule is impossible for a specific case, STOP and ask before violating it.
 - All exports are **named exports** except Next.js route files.
 
 ### 1.2 No Conditionals Inside Component Bodies
+
 The component function body must be **pure rendering**. No `if`, `else`, `switch`, `? :`, `&&`, `||` for rendering logic inside the returned JSX or the component body.
 
 **Allowed locations for conditionals:**
+
 - Custom hooks (`useXxx`)
 - Pure utility functions in `src/lib/`
 - CVA variant configs (declarative, not imperative)
 - Lookup maps / record objects
 
 **Forbidden patterns in components:**
+
 ```tsx
 // ❌ ternary in JSX
 {isLoading ? <Spinner /> : <Content />}
@@ -41,27 +45,32 @@ switch (size) { ... }
 ```
 
 **Required patterns instead:**
+
 ```tsx
 // ✅ CVA for variants
-const button = cva(base, { variants: { intent: { primary: '...', ghost: '...' } } })
+const button = cva(base, {
+  variants: { intent: { primary: '...', ghost: '...' } },
+});
 
 // ✅ lookup map for rendering
 const RENDERERS: Record<State, () => JSX.Element> = {
   loading: () => <Spinner />,
   success: () => <Content />,
-}
-const renderContent = RENDERERS[state]
+};
+const renderContent = RENDERERS[state];
 
 // ✅ custom hook computes everything
-const { content, icon, ariaLabel } = useButtonModel(props)
+const { content, icon, ariaLabel } = useButtonModel(props);
 ```
 
 ### 1.3 No Inline Logic in JSX
+
 - No `.map()` with inline arrow bodies longer than a single expression.
 - No `.filter()`, `.reduce()`, `.sort()` inside JSX. Precompute with `useMemo` or a hook.
 - No string concatenation or template literals inside `className`. See §2.
 
 ### 1.4 Props Are Destructured at the Signature
+
 ```tsx
 // ✅
 const Card = ({ title, children, className }: CardProps) => { ... }
@@ -70,7 +79,9 @@ const Card = (props: CardProps) => { const { title } = props; ... }
 ```
 
 ### 1.5 Explicit Return Types on Public APIs
+
 Every exported function, hook, and component must have an explicit return type.
+
 ```tsx
 const Button = ({ ... }: ButtonProps): JSX.Element => { ... }
 const useToggle = (initial: boolean): UseToggleResult => { ... }
@@ -81,48 +92,64 @@ const useToggle = (initial: boolean): UseToggleResult => { ... }
 ## 2. ClassName Rules (Pre-Figuring)
 
 ### 2.1 All ClassNames Are Pre-Computed
+
 `className` values must be resolved **before** the JSX return. Never build them inline in JSX.
 
 ```tsx
 // ❌ forbidden in JSX
-<div className={`flex ${isActive ? 'bg-primary' : 'bg-muted'}`} />
+<div className={`flex ${isActive ? 'bg-primary' : 'bg-muted'}`} />;
 
 // ✅ required
-const rootClass = cn('flex', isActive ? 'bg-primary' : 'bg-muted')
-return <div className={rootClass} />
+const rootClass = cn('flex', isActive ? 'bg-primary' : 'bg-muted');
+return <div className={rootClass} />;
 ```
 
 ### 2.2 CVA Is the Only Variant Mechanism
+
 Install `class-variance-authority`. Every component with variants uses CVA. No manual variant objects, no ternaries for variants.
 
 ```tsx
-const buttonVariants = cva('inline-flex items-center justify-center rounded-md', {
-  variants: {
-    intent: { primary: 'bg-primary text-primary-foreground', ghost: 'bg-transparent' },
-    size:   { sm: 'h-8 px-3 text-sm', md: 'h-10 px-4', lg: 'h-12 px-6 text-lg' },
+const buttonVariants = cva(
+  'inline-flex items-center justify-center rounded-md',
+  {
+    variants: {
+      intent: {
+        primary: 'bg-primary text-primary-foreground',
+        ghost: 'bg-transparent',
+      },
+      size: {
+        sm: 'h-8 px-3 text-sm',
+        md: 'h-10 px-4',
+        lg: 'h-12 px-6 text-lg',
+      },
+    },
+    defaultVariants: { intent: 'primary', size: 'md' },
   },
-  defaultVariants: { intent: 'primary', size: 'md' },
-})
+);
 ```
 
 ### 2.3 `cn()` Is the Only Composition Helper
+
 Create `src/lib/cn.ts` using `clsx` + `tailwind-merge`. Every className that combines sources goes through `cn()`.
 
 ```ts
-export const cn = (...inputs: ClassValue[]): string => twMerge(clsx(inputs))
+export const cn = (...inputs: ClassValue[]): string => twMerge(clsx(inputs));
 ```
 
 ### 2.4 No Tailwind Class Strings Duplicated Across Files
+
 If the same multi-class string appears twice, promote it to:
+
 - A CVA variant, or
 - A shared constant in `src/design-system/classnames.ts`
 
 ### 2.5 Layout ClassNames Live at Module Scope
+
 Static className strings that never change must be hoisted to module-level `const`.
 
 ```tsx
-const ROOT = 'relative flex w-full flex-col gap-4'
-const HEADER = 'flex items-center justify-between'
+const ROOT = 'relative flex w-full flex-col gap-4';
+const HEADER = 'flex items-center justify-between';
 ```
 
 ---
@@ -130,35 +157,41 @@ const HEADER = 'flex items-center justify-between'
 ## 3. Component Architecture Rules
 
 ### 3.1 Component Categories
+
 - `src/components/ui/` — primitives (Button, Card, Text, Heading, Stack, Grid, Container, Section, Divider, Badge, IconButton)
 - `src/components/sections/` — page sections (Hero, Features, FAQ, Footer, Navbar)
 - `src/components/icons/` — inline SVG icon components
 - `src/components/patterns/` — compound components (Card.Header, FAQ.Item, etc.)
 
 ### 3.2 Required Design Patterns
+
 Every component uses one or more of these. Do not invent ad-hoc patterns.
 
-| Pattern | When to Use | Example |
-|---|---|---|
-| **Variant (CVA)** | Multiple visual styles | `Button`, `Badge`, `Text` |
-| **Compound** | Parent + related children | `Card.Root`, `Card.Header`, `Card.Body` |
-| **Slot (`asChild`)** | Render as another element | `<Button asChild><Link /></Button>` |
-| **Polymorphic (`as`)** | Change root element | `<Text as="span" />` |
-| **Container/Presenter** | Stateful wrapper, dumb view | `FaqContainer` + `FaqView` |
-| **Custom Hook** | Any stateful logic | `useDisclosure`, `useFaq` |
-| **Lookup Map** | Replacing conditionals | `RENDERERS[state]` |
-| **Render Props / Children Fn** | Inverted control | Rare, only when justified |
+| Pattern                        | When to Use                 | Example                                 |
+| ------------------------------ | --------------------------- | --------------------------------------- |
+| **Variant (CVA)**              | Multiple visual styles      | `Button`, `Badge`, `Text`               |
+| **Compound**                   | Parent + related children   | `Card.Root`, `Card.Header`, `Card.Body` |
+| **Slot (`asChild`)**           | Render as another element   | `<Button asChild><Link /></Button>`     |
+| **Polymorphic (`as`)**         | Change root element         | `<Text as="span" />`                    |
+| **Container/Presenter**        | Stateful wrapper, dumb view | `FaqContainer` + `FaqView`              |
+| **Custom Hook**                | Any stateful logic          | `useDisclosure`, `useFaq`               |
+| **Lookup Map**                 | Replacing conditionals      | `RENDERERS[state]`                      |
+| **Render Props / Children Fn** | Inverted control            | Rare, only when justified               |
 
 ### 3.3 One Component Per File
+
 File name = component name (PascalCase). No multiple exports of components from one file, except compound components in a single `Card.tsx` that are attached as `Card.Header`, `Card.Body`.
 
 ### 3.4 No Default Exports
+
 Except Next.js route files (`page.tsx`, `layout.tsx`, `route.ts`, `error.tsx`, `not-found.tsx`).
 
 ### 3.5 No Barrel `index.ts` Re-Exports Across Layers
+
 Do NOT create `src/components/ui/index.ts` that re-exports everything. Import directly from the file. Barrels cause circular imports and slow builds.
 
 ### 3.6 Props Interfaces
+
 - Named `XxxProps`, exported.
 - Extend native element props when wrapping one: `ButtonHTMLAttributes<HTMLButtonElement>`.
 - Use `VariantProps<typeof xxxVariants>` from CVA. Never duplicate variant unions by hand.
@@ -194,18 +227,18 @@ No deep nesting. No `utils/helpers/misc/` folders. If a util is used once, keep 
 
 ## 5. Naming Conventions
 
-| Thing | Convention | Example |
-|---|---|---|
-| Component | PascalCase | `IconButton` |
-| Hook | `use` + PascalCase | `useDisclosure` |
-| Utility | camelCase | `formatLabel` |
-| Constant | SCREAMING_SNAKE | `ROOT_CLASS` |
-| Type/Interface | PascalCase | `ButtonProps` |
-| File (component) | PascalCase | `Button.tsx` |
-| File (utility) | camelCase | `cn.ts` |
-| Boolean | `is/has/should/can` prefix | `isOpen`, `hasError` |
-| Event handler prop | `on` + Event | `onClick`, `onToggle` |
-| Event handler impl | `handle` + Event | `handleClick` |
+| Thing              | Convention                 | Example               |
+| ------------------ | -------------------------- | --------------------- |
+| Component          | PascalCase                 | `IconButton`          |
+| Hook               | `use` + PascalCase         | `useDisclosure`       |
+| Utility            | camelCase                  | `formatLabel`         |
+| Constant           | SCREAMING_SNAKE            | `ROOT_CLASS`          |
+| Type/Interface     | PascalCase                 | `ButtonProps`         |
+| File (component)   | PascalCase                 | `Button.tsx`          |
+| File (utility)     | camelCase                  | `cn.ts`               |
+| Boolean            | `is/has/should/can` prefix | `isOpen`, `hasError`  |
+| Event handler prop | `on` + Event               | `onClick`, `onToggle` |
+| Event handler impl | `handle` + Event           | `handleClick`         |
 
 ---
 
@@ -245,6 +278,7 @@ No deep nesting. No `utils/helpers/misc/` folders. If a util is used once, keep 
 ## 9. Forbidden Actions
 
 Codex must NEVER:
+
 - Introduce a new dependency without asking.
 - Add `console.log` to committed code.
 - Add TODO comments without a linked issue number.
@@ -263,6 +297,7 @@ Codex must NEVER:
 ## 10. Definition of Done (Per Component)
 
 Before marking a component complete:
+
 1. `yarn lint` passes with zero warnings.
 2. `yarn format` applied.
 3. `yarn build` passes.

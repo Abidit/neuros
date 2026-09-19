@@ -1,84 +1,62 @@
-import Link from 'next/link';
+import { cva, type VariantProps } from 'class-variance-authority';
 import {
   forwardRef,
-  type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
-  type Ref,
+  type ReactElement,
 } from 'react';
 
-import { cn } from '@/lib/utils';
+import { useButtonModel } from '@/hooks/useButtonModel';
+import { cn } from '@/lib/cn';
 import { PRIMARY_ACTION_CLASS } from '@/design-system/classnames';
 
-export interface ButtonProps extends Omit<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  'className'
-> {
+export const buttonVariants = cva(
+  'inline-flex cursor-pointer items-center justify-center border-token font-heading font-bold tracking-normal transition-colors focus-visible:outline-focus focus-visible:outline-offset-token focus-visible:outline-interactive-focus disabled:pointer-events-none disabled:bg-interactive-disabled disabled:text-foreground-muted aria-disabled:pointer-events-none aria-disabled:bg-interactive-disabled aria-disabled:text-foreground-muted',
+  {
+    variants: {
+      variant: {
+        primary: PRIMARY_ACTION_CLASS,
+        secondary:
+          'border-border-default bg-background-primary text-neutral-800 backdrop-blur-button hover:border-border-strong focus-visible:border-border-focus',
+        outline:
+          'border-interactive-primary bg-transparent text-interactive-primary hover:bg-background-muted focus-visible:border-interactive-focus',
+        ghost:
+          'border-transparent bg-transparent text-foreground-default hover:bg-background-muted focus-visible:text-interactive-focus',
+      },
+      size: {
+        sm: 'min-h-control-sm gap-stack-sm rounded-md px-inset-md py-inset-sm text-button-sm',
+        md: 'min-h-control-md gap-stack-sm rounded-md px-inset-lg py-inset-md text-button-sm',
+        lg: 'min-h-control-lg gap-stack-sm rounded-lg px-inset-xl py-inset-md text-button-base',
+      },
+    },
+    defaultVariants: { size: 'md', variant: 'primary' },
+  },
+);
+
+export interface ButtonProps
+  extends
+    Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'>,
+    VariantProps<typeof buttonVariants> {
   className?: string;
   href?: string;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  asChild?: boolean;
 }
 
-const variantClasses = {
-  primary: PRIMARY_ACTION_CLASS,
-  secondary:
-    'border-border-default bg-background-primary text-neutral-800 backdrop-blur-button hover:border-border-strong focus-visible:border-border-focus',
-  outline:
-    'border-interactive-primary bg-transparent text-interactive-primary hover:bg-background-muted focus-visible:border-interactive-focus',
-  ghost:
-    'border-transparent bg-transparent text-foreground-default hover:bg-background-muted focus-visible:text-interactive-focus',
-} as const;
-
-const sizeClasses = {
-  sm: 'min-h-control-sm gap-stack-sm rounded-md px-inset-md py-inset-sm text-button-sm',
-  md: 'min-h-control-md gap-stack-sm rounded-md px-inset-lg py-inset-md text-button-sm',
-  lg: 'min-h-control-lg gap-stack-sm rounded-lg px-inset-xl py-inset-md text-button-base',
-} as const;
-
-export const Button = forwardRef<
-  HTMLButtonElement | HTMLAnchorElement,
-  ButtonProps
->(function Button(
-  {
-    children,
-    className,
-    disabled,
-    href,
-    size = 'md',
-    variant = 'primary',
-    ...props
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    { asChild, children, className, disabled, href, size, variant, ...props },
+    ref,
+  ): ReactElement => {
+    const rootClass = cn(buttonVariants({ size, variant }), className);
+    return useButtonModel({
+      asChild,
+      buttonProps: props,
+      children,
+      className: rootClass,
+      disabled,
+      href,
+      ref,
+    });
   },
-  ref,
-) {
-  const classes = cn(
-    'inline-flex cursor-pointer items-center justify-center border font-heading font-bold tracking-normal transition-colors focus-visible:outline-2 focus-visible:outline-offset-token focus-visible:outline-interactive-focus disabled:pointer-events-none disabled:bg-interactive-disabled disabled:text-foreground-muted',
-    variantClasses[variant],
-    sizeClasses[size],
-    className,
-  );
+);
 
-  if (href) {
-    return (
-      <Link
-        ref={ref as Ref<HTMLAnchorElement>}
-        href={href}
-        aria-disabled={disabled || undefined}
-        className={cn(classes, disabled && 'pointer-events-none')}
-        {...(props as AnchorHTMLAttributes<HTMLAnchorElement>)}
-      >
-        {children}
-      </Link>
-    );
-  }
-
-  return (
-    <button
-      ref={ref as Ref<HTMLButtonElement>}
-      className={classes}
-      disabled={disabled}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-});
+Button.displayName = 'Button';

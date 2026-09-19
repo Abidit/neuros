@@ -1,58 +1,56 @@
-import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import {
+  forwardRef,
+  type ButtonHTMLAttributes,
+  type ReactNode,
+  type ReactElement,
+} from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/cn';
 import { PRIMARY_ACTION_CLASS } from '@/design-system/classnames';
 
-export interface IconButtonProps extends Omit<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  'aria-label'
-> {
+export const iconButtonVariants = cva(
+  'inline-flex cursor-pointer items-center justify-center border-token transition-colors focus-visible:outline-focus focus-visible:outline-offset-token focus-visible:outline-interactive-focus disabled:pointer-events-none disabled:bg-interactive-disabled disabled:text-foreground-muted',
+  {
+    variants: {
+      size: {
+        sm: 'size-control-sm rounded-md',
+        md: 'size-control-md rounded-md',
+        lg: 'size-control-lg rounded-lg',
+      },
+      variant: {
+        primary: PRIMARY_ACTION_CLASS,
+        secondary:
+          'border-border-default bg-background-primary text-foreground-subtle hover:border-border-strong',
+        ghost:
+          'border-transparent bg-transparent text-foreground-subtle hover:bg-background-muted',
+      },
+    },
+    defaultVariants: { size: 'md', variant: 'secondary' },
+  },
+);
+
+export interface IconButtonProps
+  extends
+    Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label' | 'className'>,
+    VariantProps<typeof iconButtonVariants> {
   'aria-label': string;
+  className?: string;
   icon: ReactNode;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'primary' | 'secondary' | 'ghost';
 }
 
-const sizeClasses = {
-  sm: 'size-control-sm rounded-md',
-  md: 'size-control-md rounded-md',
-  lg: 'size-control-lg rounded-lg',
-} as const;
-
-const variantClasses = {
-  primary: PRIMARY_ACTION_CLASS,
-  secondary:
-    'border-border-default bg-background-primary text-foreground-subtle hover:border-border-strong',
-  ghost:
-    'border-transparent bg-transparent text-foreground-subtle hover:bg-background-muted',
-} as const;
-
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  function IconButton(
-    {
-      className,
-      icon,
-      size = 'md',
-      type = 'button',
-      variant = 'secondary',
-      ...props
-    },
+  (
+    { className, icon, size, type = 'button', variant, ...props },
     ref,
-  ) {
+  ): ReactElement => {
+    const rootClass = cn(iconButtonVariants({ size, variant }), className);
     return (
-      <button
-        ref={ref}
-        type={type}
-        className={cn(
-          'focus-visible:outline-offset-token focus-visible:outline-interactive-focus disabled:bg-interactive-disabled disabled:text-foreground-muted inline-flex cursor-pointer items-center justify-center border transition-colors focus-visible:outline-2 disabled:pointer-events-none',
-          sizeClasses[size],
-          variantClasses[variant],
-          className,
-        )}
-        {...props}
-      >
+      <button ref={ref} type={type} className={rootClass} {...props}>
         {icon}
       </button>
     );
   },
 );
+
+IconButton.displayName = 'IconButton';

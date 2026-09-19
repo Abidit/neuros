@@ -129,7 +129,11 @@ export const designTokens = {
   icon: { sm: '18px', md: '20px', lg: '24px' },
   outline: { offset: '2px', width: '2px' },
   border: { width: '1px' },
-  container: { 'content-sm': '640px', 'content-md': '810px', content: '1200px' },
+  container: {
+    'content-sm': '640px',
+    'content-md': '810px',
+    content: '1200px',
+  },
   columns: { 1: 1, 2: 2, 3: 3, 4: 4, 8: 8, 12: 12 },
 } as const;
 

@@ -1,30 +1,33 @@
-import { forwardRef, type HTMLAttributes } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { forwardRef, type HTMLAttributes, type ReactElement } from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/cn';
 
-export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
-  size?: 'sm' | 'md' | 'lg' | 'full';
-}
-
-const sizeClasses = {
-  sm: 'max-w-content-sm',
-  md: 'max-w-content-md',
-  lg: 'max-w-content',
-  full: 'max-w-none',
-} as const;
-
-export const Container = forwardRef<HTMLDivElement, ContainerProps>(
-  function Container({ className, size = 'lg', ...props }, ref) {
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          'px-inset-xl md:px-inset-3xl mx-auto w-full',
-          sizeClasses[size],
-          className,
-        )}
-        {...props}
-      />
-    );
+export const containerVariants = cva(
+  'mx-auto w-full px-inset-xl md:px-inset-3xl',
+  {
+    variants: {
+      size: {
+        sm: 'max-w-content-sm',
+        md: 'max-w-content-md',
+        lg: 'max-w-content',
+        full: 'max-w-none',
+      },
+    },
+    defaultVariants: { size: 'lg' },
   },
 );
+
+export interface ContainerProps
+  extends
+    HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof containerVariants> {}
+
+export const Container = forwardRef<HTMLDivElement, ContainerProps>(
+  ({ className, size, ...props }, ref): ReactElement => {
+    const rootClass = cn(containerVariants({ size }), className);
+    return <div ref={ref} className={rootClass} {...props} />;
+  },
+);
+
+Container.displayName = 'Container';
