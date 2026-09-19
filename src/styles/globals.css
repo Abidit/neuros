@@ -1,0 +1,30 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+@utility outline-offset-token {
+  outline-offset: var(--spacing-outline-offset);
+}
+
+@utility outline-focus {
+  outline-style: solid;
+  outline-width: var(--outline-width-focus);
+}
+
+@utility border-token {
+  border-style: solid;
+  border-width: var(--border-width-default);
+}
+
+@utility border-t-token {
+  border-top-style: solid;
+  border-top-width: var(--border-width-default);
+}
+
+@layer base {
+  *, ::before, ::after {
+    border-color: var(--color-border-default);
+  }
+  body {
+    margin: var(--spacing-space-0);
+  }
+}
