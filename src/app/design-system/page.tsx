@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 
 import { StarIcon } from '@/components/icons/StarIcon';
+import { Navbar } from '@/components/sections/Navbar';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -23,99 +24,102 @@ const BADGE_VARIANTS = ['primary', 'neutral', 'inverse'] as const;
 const HEADING_LEVELS = [3, 4, 5, 6] as const;
 
 const DesignSystemPage = (): ReactElement => (
-  <main className={PAGE_CLASS}>
-    <Section spacing="md">
-      <Container>
-        <Stack gap="xl">
-          <Stack gap="sm">
-            <Badge>Neuros foundations</Badge>
-            <Heading level={1}>Design system</Heading>
-            <Text variant="muted" size="md">
-              Token-backed primitives extracted from the Figma component
-              foundation.
-            </Text>
-          </Stack>
+  <>
+    <Navbar />
+    <main className={PAGE_CLASS}>
+      <Section spacing="md">
+        <Container>
+          <Stack gap="xl">
+            <Stack gap="sm">
+              <Badge>Neuros foundations</Badge>
+              <Heading level={1}>Design system</Heading>
+              <Text variant="muted" size="md">
+                Token-backed primitives extracted from the Figma component
+                foundation.
+              </Text>
+            </Stack>
 
-          <Divider />
+            <Divider />
 
-          <Stack gap="lg">
-            <Heading level={2}>Typography</Heading>
-            {HEADING_LEVELS.map((level) => (
-              <Heading key={level} level={level}>
-                Heading level {level}
-              </Heading>
-            ))}
-            <Text>Default body text uses Inter.</Text>
-            <Text variant="muted">Muted supporting copy.</Text>
-            <Text className={INVERSE_TEXT_CLASS} variant="inverse">
-              Inverse text on an inverse surface.
-            </Text>
-          </Stack>
+            <Stack gap="lg">
+              <Heading level={2}>Typography</Heading>
+              {HEADING_LEVELS.map((level) => (
+                <Heading key={level} level={level}>
+                  Heading level {level}
+                </Heading>
+              ))}
+              <Text>Default body text uses Inter.</Text>
+              <Text variant="muted">Muted supporting copy.</Text>
+              <Text className={INVERSE_TEXT_CLASS} variant="inverse">
+                Inverse text on an inverse surface.
+              </Text>
+            </Stack>
 
-          <Divider />
+            <Divider />
 
-          <Stack gap="lg">
-            <Heading level={2}>Actions</Heading>
-            <div className={ACTIONS_CLASS}>
-              {BUTTON_VARIANTS.map((variant) => (
-                <Button key={variant} variant={variant}>
-                  {variant}
+            <Stack gap="lg">
+              <Heading level={2}>Actions</Heading>
+              <div className={ACTIONS_CLASS}>
+                {BUTTON_VARIANTS.map((variant) => (
+                  <Button key={variant} variant={variant}>
+                    {variant}
+                  </Button>
+                ))}
+                <Button href="/design-system" size="lg">
+                  <StarIcon className={STAR_SIZE_CLASS} />
+                  Link button
                 </Button>
-              ))}
-              <Button href="/design-system" size="lg">
-                <StarIcon className={STAR_SIZE_CLASS} />
-                Link button
-              </Button>
-              <Button disabled>Disabled</Button>
-              <IconButton aria-label="Favorite" icon={<StarIcon />} />
-            </div>
-            <div className={ACTIONS_CLASS}>
-              {BADGE_VARIANTS.map((variant) => (
-                <Badge key={variant} variant={variant}>
-                  {variant} badge
-                </Badge>
-              ))}
-            </div>
-          </Stack>
+                <Button disabled>Disabled</Button>
+                <IconButton aria-label="Favorite" icon={<StarIcon />} />
+              </div>
+              <div className={ACTIONS_CLASS}>
+                {BADGE_VARIANTS.map((variant) => (
+                  <Badge key={variant} variant={variant}>
+                    {variant} badge
+                  </Badge>
+                ))}
+              </div>
+            </Stack>
 
-          <Divider emphasis="strong" />
+            <Divider emphasis="strong" />
 
-          <Stack gap="lg">
-            <Heading level={2}>Layout</Heading>
-            <Grid columns={1} tabletColumns={2} desktopColumns={3}>
-              <Card>
-                <Card.Header>
-                  <Heading level={5}>Card title</Heading>
-                </Card.Header>
-                <Card.Body>
-                  <Text className={CARD_COPY}>
-                    A token-backed surface with the extracted radius, border,
-                    padding, and primary shadow.
-                  </Text>
-                </Card.Body>
-              </Card>
-              <Card padding="md" isElevated={false}>
-                <Card.Body>
-                  <Heading level={5}>Flat card</Heading>
-                  <Text className={CARD_COPY}>
-                    Elevation and padding are configurable.
-                  </Text>
-                </Card.Body>
-              </Card>
-              <Card padding="sm">
-                <Card.Body>
-                  <Heading level={5}>Compact card</Heading>
-                  <Text className={CARD_COPY}>
-                    The same primitive at small inset.
-                  </Text>
-                </Card.Body>
-              </Card>
-            </Grid>
+            <Stack gap="lg">
+              <Heading level={2}>Layout</Heading>
+              <Grid columns={1} tabletColumns={2} desktopColumns={3}>
+                <Card>
+                  <Card.Header>
+                    <Heading level={5}>Card title</Heading>
+                  </Card.Header>
+                  <Card.Body>
+                    <Text className={CARD_COPY}>
+                      A token-backed surface with the extracted radius, border,
+                      padding, and primary shadow.
+                    </Text>
+                  </Card.Body>
+                </Card>
+                <Card padding="md" isElevated={false}>
+                  <Card.Body>
+                    <Heading level={5}>Flat card</Heading>
+                    <Text className={CARD_COPY}>
+                      Elevation and padding are configurable.
+                    </Text>
+                  </Card.Body>
+                </Card>
+                <Card padding="sm">
+                  <Card.Body>
+                    <Heading level={5}>Compact card</Heading>
+                    <Text className={CARD_COPY}>
+                      The same primitive at small inset.
+                    </Text>
+                  </Card.Body>
+                </Card>
+              </Grid>
+            </Stack>
           </Stack>
-        </Stack>
-      </Container>
-    </Section>
-  </main>
+        </Container>
+      </Section>
+    </main>
+  </>
 );
 
 export default DesignSystemPage;

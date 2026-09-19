@@ -10,7 +10,7 @@ import { cn } from '@/lib/cn';
 import { PRIMARY_ACTION_CLASS } from '@/design-system/classnames';
 
 export const buttonVariants = cva(
-  'inline-flex cursor-pointer items-center justify-center border-token font-heading font-bold tracking-normal transition-colors focus-visible:outline-focus focus-visible:outline-offset-token focus-visible:outline-interactive-focus disabled:pointer-events-none disabled:bg-interactive-disabled disabled:text-foreground-muted aria-disabled:pointer-events-none aria-disabled:bg-interactive-disabled aria-disabled:text-foreground-muted',
+  'control-border inline-flex cursor-pointer items-center justify-center font-heading font-bold tracking-normal transition-colors focus-visible:focus-ring focus-visible:outline-offset-token focus-visible:outline-interactive-focus disabled:pointer-events-none disabled:bg-interactive-disabled disabled:text-foreground-muted aria-disabled:pointer-events-none aria-disabled:bg-interactive-disabled aria-disabled:text-foreground-muted',
   {
     variants: {
       variant: {
@@ -23,9 +23,9 @@ export const buttonVariants = cva(
           'border-transparent bg-transparent text-foreground-default hover:bg-background-muted focus-visible:text-interactive-focus',
       },
       size: {
-        sm: 'min-h-control-sm gap-stack-sm rounded-md px-inset-md py-inset-sm text-button-sm',
-        md: 'min-h-control-md gap-stack-sm rounded-md px-inset-lg py-inset-md text-button-sm',
-        lg: 'min-h-control-lg gap-stack-sm rounded-lg px-inset-xl py-inset-md text-button-base',
+        sm: 'type-button-sm min-h-control-sm gap-stack-sm rounded-md px-inset-md py-inset-sm',
+        md: 'type-button-sm min-h-control-md gap-stack-sm rounded-md px-inset-lg py-inset-md',
+        lg: 'type-button-base min-h-control-lg gap-stack-sm rounded-lg px-inset-xl py-inset-md',
       },
     },
     defaultVariants: { size: 'md', variant: 'primary' },

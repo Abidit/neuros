@@ -16,8 +16,15 @@ const TEXT_STYLE_KEYS = {
   bodyLgRegular: 'body-lg',
   buttonSmBold: 'button-sm',
   buttonBaseBold: 'button-base',
+  navigationBaseMedium: 'navigation-base',
+  navigationMdMedium: 'navigation-md',
 };
-const BREAKPOINT_KEYS = { mobile: 'sm', tablet: 'md', desktop: 'xl' };
+const BREAKPOINT_KEYS = {
+  mobile: 'sm',
+  tablet: 'md',
+  navigationDesktop: 'lg',
+  desktop: 'xl',
+};
 const DECLARATIONS = [];
 const kebab = (value) =>
   value.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
@@ -83,6 +90,8 @@ for (const [key, value] of Object.entries(tokens.breakpoint))
   add(`breakpoint-${BREAKPOINT_KEYS[key]}`, rem(value));
 for (const [key, value] of Object.entries(tokens.container))
   add(`container-${key}`, rem(value));
+for (const [key, value] of Object.entries(tokens.component.navbar))
+  add(`spacing-navbar-${kebab(key)}`, rem(value));
 for (const [name, grid] of Object.entries(tokens.grid)) {
   add(`spacing-grid-${name}-margin`, rem(grid.margin));
   add(`spacing-grid-${name}-gutter`, rem(grid.gutter));

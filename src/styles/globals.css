@@ -10,9 +10,29 @@
   outline-width: var(--outline-width-focus);
 }
 
+@utility focus-ring {
+  outline-style: solid;
+  outline-width: var(--outline-width-focus);
+}
+
 @utility border-token {
   border-style: solid;
   border-width: var(--border-width-default);
+}
+
+@utility control-border {
+  border-style: solid;
+  border-width: var(--border-width-default);
+}
+
+@utility type-button-sm {
+  font-size: var(--text-button-sm);
+  line-height: var(--text-button-sm--line-height);
+}
+
+@utility type-button-base {
+  font-size: var(--text-button-base);
+  line-height: var(--text-button-base--line-height);
 }
 
 @utility border-t-token {

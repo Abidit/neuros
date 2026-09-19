@@ -1,7 +1,13 @@
-import { redirect } from 'next/navigation';
+import type { ReactElement } from 'react';
 
-const Home = (): never => {
-  redirect('/design-system');
-};
+import { Navbar } from '@/components/sections/Navbar';
+
+const MAIN_CLASS = 'min-h-screen bg-background-primary';
+
+const Home = (): ReactElement => (
+  <main className={MAIN_CLASS}>
+    <Navbar />
+  </main>
+);
 
 export default Home;
