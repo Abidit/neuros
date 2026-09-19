@@ -18,6 +18,8 @@ const TEXT_STYLE_KEYS = {
   buttonBaseBold: 'button-base',
   navigationBaseMedium: 'navigation-base',
   navigationMdMedium: 'navigation-md',
+  heroHeadingMobile: 'hero-heading-mobile',
+  heroHeadingDesktop: 'hero-heading-desktop',
 };
 const BREAKPOINT_KEYS = {
   mobile: 'sm',
@@ -76,6 +78,7 @@ for (const [name, value] of Object.entries(tokens.radius))
 for (const [key, name] of [
   ['shadowPrimary1', 'primary-1'],
   ['shadowPrimary4', 'primary-4'],
+  ['shadowEyebrow', 'eyebrow'],
 ]) {
   let shadow = tokens.effect[key];
   for (const [alpha, color] of Object.entries(
@@ -90,8 +93,10 @@ for (const [key, value] of Object.entries(tokens.breakpoint))
   add(`breakpoint-${BREAKPOINT_KEYS[key]}`, rem(value));
 for (const [key, value] of Object.entries(tokens.container))
   add(`container-${key}`, rem(value));
-for (const [key, value] of Object.entries(tokens.component.navbar))
-  add(`spacing-navbar-${kebab(key)}`, rem(value));
+for (const [component, values] of Object.entries(tokens.component)) {
+  for (const [key, value] of Object.entries(values))
+    add(`spacing-${component}-${kebab(key)}`, rem(value));
+}
 for (const [name, grid] of Object.entries(tokens.grid)) {
   add(`spacing-grid-${name}-margin`, rem(grid.margin));
   add(`spacing-grid-${name}-gutter`, rem(grid.gutter));

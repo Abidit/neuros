@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 
 import { StarIcon } from '@/components/icons/StarIcon';
+import { Hero } from '@/components/sections/Hero';
 import { Navbar } from '@/components/sections/Navbar';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -26,6 +27,7 @@ const HEADING_LEVELS = [3, 4, 5, 6] as const;
 const DesignSystemPage = (): ReactElement => (
   <>
     <Navbar />
+    <Hero />
     <main className={PAGE_CLASS}>
       <Section spacing="md">
         <Container>

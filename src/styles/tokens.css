@@ -72,6 +72,10 @@
   --text-navigation-base--line-height: 1.26;
   --text-navigation-md: 1.25rem;
   --text-navigation-md--line-height: 1.22;
+  --text-hero-heading-mobile: 2.375rem;
+  --text-hero-heading-mobile--line-height: 1.16;
+  --text-hero-heading-desktop: 3rem;
+  --text-hero-heading-desktop--line-height: 1.16;
   --spacing-space-0: 0rem;
   --spacing-space-1: 0.25rem;
   --spacing-space-2: 0.5rem;
@@ -112,6 +116,7 @@
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-2xl: 1.25rem;
+  --radius-3xl: 1.5rem;
   --shadow-primary-1:
     0 6px 8px var(--color-primary-alpha-05),
     0 9px 12px var(--color-primary-alpha-05),
@@ -122,6 +127,8 @@
     0 24px 15px var(--color-primary-alpha-05),
     0 40px 16px var(--color-primary-alpha-05),
     0 62px 17px var(--color-primary-alpha-05);
+  --shadow-eyebrow:
+    0 10px 18px #3a4c921a, 0 2px 6px #2c3a720d, 0 0 1px #2c3a720d;
   --blur-button: 0.375rem;
   --breakpoint-sm: 26.25rem;
   --breakpoint-md: 48rem;
@@ -147,6 +154,26 @@
   --spacing-navbar-trailing-slot: 3rem;
   --spacing-navbar-menu-height: 24rem;
   --spacing-navbar-menu-item-height: 4rem;
+  --spacing-hero-content-width: 53.75rem;
+  --spacing-hero-content-mobile-height: 31.625rem;
+  --spacing-hero-content-tablet-height: 24.375rem;
+  --spacing-hero-content-desktop-height: 20.875rem;
+  --spacing-hero-text-mobile-height: 22.625rem;
+  --spacing-hero-text-tablet-height: 18.875rem;
+  --spacing-hero-text-desktop-height: 15.375rem;
+  --spacing-hero-desktop-top-inset: 7rem;
+  --spacing-hero-desktop-bottom-inset: 5rem;
+  --spacing-hero-mobile-vertical-inset: 3.75rem;
+  --spacing-hero-desktop-gap: 3.75rem;
+  --spacing-hero-description-inset: 5rem;
+  --spacing-hero-screen-desktop-height: 30rem;
+  --spacing-hero-screen-mobile-height: 16.6875rem;
+  --spacing-hero-trial-width: 12.8125rem;
+  --spacing-hero-watch-tablet-width: 10rem;
+  --spacing-hero-watch-desktop-width: 11.125rem;
+  --spacing-hero-video-card-width: 21.875rem;
+  --spacing-hero-video-card-height: 6.75rem;
+  --spacing-hero-video-button-mobile: 6.75rem;
   --spacing-grid-mobile-margin: 1.25rem;
   --spacing-grid-mobile-gutter: 1rem;
   --container-grid-mobile: 26.25rem;

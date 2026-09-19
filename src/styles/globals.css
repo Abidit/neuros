@@ -35,6 +35,16 @@
   line-height: var(--text-button-base--line-height);
 }
 
+@utility type-hero-heading-mobile {
+  font-size: var(--text-hero-heading-mobile);
+  line-height: var(--text-hero-heading-mobile--line-height);
+}
+
+@utility type-hero-heading-desktop {
+  font-size: var(--text-hero-heading-desktop);
+  line-height: var(--text-hero-heading-desktop--line-height);
+}
+
 @utility border-t-token {
   border-top-style: solid;
   border-top-width: var(--border-width-default);
