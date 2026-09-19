@@ -3,6 +3,8 @@ import type { ReactElement } from 'react';
 import { StarIcon } from '@/components/icons/StarIcon';
 import { Hero } from '@/components/sections/Hero';
 import { Navbar } from '@/components/sections/Navbar';
+import { SocialProof } from '@/components/sections/SocialProof';
+import { Strategies } from '@/components/sections/Strategies';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -28,6 +30,8 @@ const DesignSystemPage = (): ReactElement => (
   <>
     <Navbar />
     <Hero />
+    <SocialProof />
+    <Strategies />
     <main className={PAGE_CLASS}>
       <Section spacing="md">
         <Container>

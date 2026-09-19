@@ -45,6 +45,22 @@
   line-height: var(--text-hero-heading-desktop--line-height);
 }
 
+@utility strategies-grid {
+  background-image:
+    linear-gradient(
+      to right,
+      var(--color-neutral-alpha-60) var(--border-width-default),
+      transparent var(--border-width-default)
+    ),
+    linear-gradient(
+      to bottom,
+      var(--color-neutral-alpha-60) var(--border-width-default),
+      transparent var(--border-width-default)
+    );
+  background-size: var(--spacing-strategies-grid-size)
+    var(--spacing-strategies-grid-size);
+}
+
 @utility border-t-token {
   border-top-style: solid;
   border-top-width: var(--border-width-default);
