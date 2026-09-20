@@ -16,15 +16,19 @@ type NavigationItem = {
 };
 
 const navbarVariants = cva(
-  'w-full bg-background-primary font-heading lg:h-navbar-desktop-height lg:px-inset-3xl',
+  'sticky top-0 z-10 w-full border-b-token bg-background-primary font-heading transition-shadow lg:-top-navbar-utility-height lg:h-navbar-desktop-height lg:px-inset-3xl',
   {
     variants: {
       menuState: {
         closed: 'h-navbar-mobile-height md:h-navbar-tablet-height',
         open: 'h-navbar-mobile-open-height md:h-navbar-tablet-open-height lg:h-navbar-desktop-height',
       },
+      scrollState: {
+        top: 'border-transparent shadow-none',
+        scrolled: 'border-border-default shadow-primary-1',
+      },
     },
-    defaultVariants: { menuState: 'closed' },
+    defaultVariants: { menuState: 'closed', scrollState: 'top' },
   },
 );
 const menuPanelVariants = cva('mx-inset-3xl h-navbar-menu-height lg:hidden', {
@@ -34,7 +38,7 @@ const menuPanelVariants = cva('mx-inset-3xl h-navbar-menu-height lg:hidden', {
   defaultVariants: { menuState: 'closed' },
 });
 const CONTENT_CLASS =
-  'mx-inset-3xl h-navbar-mobile-height border-b-token border-neutral-200 md:h-navbar-tablet-height md:border-neutral-300 lg:mx-auto lg:h-navbar-desktop-height lg:w-full lg:max-w-navbar-content-width';
+  'mx-inset-3xl h-navbar-mobile-height md:h-navbar-tablet-height lg:mx-auto lg:h-navbar-desktop-height lg:w-full lg:max-w-navbar-content-width';
 const UTILITY_ROW_CLASS =
   'hidden h-navbar-utility-height items-end justify-between lg:flex';
 const UTILITY_GROUP_CLASS = 'flex items-center gap-inline-xl';
@@ -121,8 +125,9 @@ export interface NavbarProps extends HTMLAttributes<HTMLElement> {
 }
 
 export const Navbar = ({ className, ...props }: NavbarProps): ReactElement => {
-  const { handleMenuToggle, isMenuOpen, menuState } = useNavbarModel();
-  const rootClass = cn(navbarVariants({ menuState }), className);
+  const { handleMenuToggle, isMenuOpen, menuState, scrollState } =
+    useNavbarModel();
+  const rootClass = cn(navbarVariants({ menuState, scrollState }), className);
   const menuPanelClass = menuPanelVariants({ menuState });
 
   return (

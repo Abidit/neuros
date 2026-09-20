@@ -17,6 +17,8 @@
   --color-primary-800: #224c93;
   --color-primary-alpha-30: #387ff54d;
   --color-primary-alpha-05: #387ff50d;
+  --color-neutral-alpha-10: #ffffff1a;
+  --color-neutral-alpha-20: #ffffff33;
   --color-neutral-alpha-60: #ffffff99;
   --color-dark-overlay-element-100: #ffffff;
   --color-background-primary: var(--color-neutral-0);
@@ -115,8 +117,10 @@
   --border-width-default: 0.0625rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
   --radius-2xl: 1.25rem;
   --radius-3xl: 1.5rem;
+  --radius-4xl: 2rem;
   --shadow-primary-1:
     0 6px 8px var(--color-primary-alpha-05),
     0 9px 12px var(--color-primary-alpha-05),
@@ -194,6 +198,39 @@
   --spacing-strategies-chart-line-height: 0.1875rem;
   --spacing-strategies-chart-point-size: 0.75rem;
   --spacing-strategies-grid-size: 4.5rem;
+  --spacing-testimonials-content-width: 75.25rem;
+  --spacing-testimonials-mobile-vertical-inset: 4rem;
+  --spacing-testimonials-desktop-vertical-inset: 6rem;
+  --spacing-testimonials-header-width: 45rem;
+  --spacing-testimonials-card-min-height: 17rem;
+  --spacing-testimonials-avatar-size: 3rem;
+  --spacing-trialCta-content-width: 75.25rem;
+  --spacing-trialCta-mobile-vertical-inset: 3rem;
+  --spacing-trialCta-desktop-vertical-inset: 5rem;
+  --spacing-trialCta-panel-mobile-inset: 2rem;
+  --spacing-trialCta-panel-desktop-inset: 3.75rem;
+  --spacing-trialCta-panel-desktop-min-height: 26.5rem;
+  --spacing-trialCta-copy-width: 35.5rem;
+  --spacing-trialCta-benefits-width: 23.8125rem;
+  --spacing-trialCta-benefit-height: 5.5rem;
+  --spacing-trialCta-icon-width: 3rem;
+  --spacing-trialCta-icon-height: 4.5rem;
+  --spacing-trialCta-button-width: 15.8125rem;
+  --spacing-trialCta-button-height: 3.5rem;
+  --spacing-trialCta-pattern-width: 54.9375rem;
+  --spacing-applications-content-width: 75.25rem;
+  --spacing-applications-mobile-vertical-inset: 4rem;
+  --spacing-applications-desktop-vertical-inset: 6rem;
+  --spacing-applications-header-width: 45rem;
+  --spacing-applications-card-min-height: 18.75rem;
+  --spacing-applications-visual-height: 8rem;
+  --spacing-applications-chart-bar-width: 1.75rem;
+  --spacing-footer-content-width: 75.25rem;
+  --spacing-footer-mobile-vertical-inset: 3rem;
+  --spacing-footer-desktop-vertical-inset: 4rem;
+  --spacing-footer-brand-width: 20rem;
+  --spacing-footer-logo-width: 7.125rem;
+  --spacing-footer-logo-height: 2rem;
   --spacing-grid-mobile-margin: 1.25rem;
   --spacing-grid-mobile-gutter: 1rem;
   --container-grid-mobile: 26.25rem;
